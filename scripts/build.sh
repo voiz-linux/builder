@@ -61,7 +61,7 @@ chmod 666 /dev/null /dev/zero /dev/random /dev/urandom 2>/dev/null || true
 echo "Configuring ethereal mode..."
 # Enable the CI escape hatch to run natively as root
 export XBPS_CHROOT_CMD=ethereal
-export XBPS_ALLOW_CHROOT_CMD_ETHEREAL=1
+export XBPS_ALLOW_CHROOT_CMD_ETHEREAL=yes
 
 cd void-packages
 mkdir -p etc

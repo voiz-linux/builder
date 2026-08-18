@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# Copyright (C) 2026 anrix <iz@anrix.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
 set -e
 
 echo "Starting Build..."

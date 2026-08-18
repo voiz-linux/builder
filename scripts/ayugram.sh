@@ -6,7 +6,7 @@
 #
 set -e
 
-CHROOT_DIR="voiz-linux-env"
+CHROOT_DIR="voiz-linux"
 
 echo "Fetching latest ROOTFS filename..."
 LATEST=$(curl -s https://repo-default.voidlinux.org/live/current/ | grep -o 'void-x86_64-musl-ROOTFS-[0-9]*\.tar\.xz' | head -n 1)

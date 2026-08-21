@@ -22,12 +22,12 @@ if ls /etc/xbps.d/*-repository-*.conf 1> /dev/null 2>&1; then
     sed -i 's|https://repo-default.voidlinux.org|https://repo-fastly.voidlinux.org|g' /etc/xbps.d/*-repository-*.conf
 fi
 
-xbps-install -S -y
+xbps-install -Sy
 
 echo "Installing dependencies..."
-xbps-install -Syu -y xbps
-xbps-install -yu -y
-xbps-install -y git curl base-devel bash jq
+xbps-install -Syu xbps
+xbps-install -Syu
+xbps-install -Sy git curl base-devel bash jq
 
 ls -lr
 

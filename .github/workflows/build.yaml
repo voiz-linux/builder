@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Check for active crave runs
         if: inputs.crave == 'active'
-        uses: void-musl/crave-checker@main
+        uses: voiz-linux/crave-checker@main
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           run_id: ${{ github.run_id }}
@@ -102,26 +102,8 @@ jobs:
     name: Prepare inside crave
     runs-on: self-hosted
     steps:
-      - name: Fastfetch
-        run: |
-          curl -LO https://raw.githubusercontent.com/void-musl/builder/main/scripts/fastfetch.sh
-          chmod +x fastfetch.sh
-          bash fastfetch.sh
-          rm -rv fastfetch.sh
-        shell: bash
-        working-directory: /crave-devspaces/actions-runner
-
-  crave-build:
-    if: inputs.crave == 'active'
-    needs: prepare-inside-crave
-    runs-on: self-hosted
-    name: Build (Crave)
-    steps:
-      - name: Main
-        env:
-          PRIV_KEY: ${{ secrets.PRIV_KEY }}
-        run: |
-          crave run --projectID 93 --no-patch -- \
-            "export PRIV_KEY=\"$PRIV_KEY\"; curl -sf https://raw.githubusercontent.com/void-musl/builder/main/scripts/ayugram.sh | bash"
+      - name: Echo
+        run: echo 'hello world'
         shell: bash
         working-directory: /crave-devspaces/actions-runner/_work/builder/los
+        

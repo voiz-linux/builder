@@ -1,0 +1,19 @@
+name: Stop
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  stop:
+    runs-on: self-hosted
+    steps:
+      - name: Stop
+        run: |
+          crave stop
+        shell: bash
+        working-directory: /crave-devspaces/actions-runner/_work/builder/los
+          

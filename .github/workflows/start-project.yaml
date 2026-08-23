@@ -1,0 +1,22 @@
+name: Init/Destroy project root/url
+on:
+  workflow_dispatch:
+
+jobs:
+  run-devspace-and-tmux:
+    runs-on: self-hosted
+
+    steps:
+      - name: Make directory
+        run: |
+          mkdir -p /crave-devspaces/actions-runner/_work/builder
+        shell: bash
+      - name: Main
+        run: |
+          rm -rf /crave-devspaces/actions-runner/_work/builder/los
+          mkdir -p /crave-devspaces/actions-runner/_work/builder/los
+          cd /crave-devspaces/actions-runner/_work/builder/los
+          crave clone create --projectID 93 /crave-devspaces/actions-runner/_work/builder/los
+          echo 'Done'
+        shell: bash
+        working-directory: /crave-devspaces/actions-runner/_work/builder

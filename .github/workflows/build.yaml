@@ -19,17 +19,18 @@ permissions:
 
 jobs:
   pre-flight-check:
+    if: inputs.crave == 'active'
     name: Check
     runs-on: ubuntu-latest
     steps:
       - name: Check for active crave runs
-        if: inputs.crave == 'active'
         uses: voiz-linux/crave-checker@main
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           run_id: ${{ github.run_id }}
 
   start-runner:
+    if: inputs.crave == 'active'
     name: Runner starter
     needs: pre-flight-check
     runs-on: ubuntu-latest
@@ -57,7 +58,7 @@ jobs:
           mv ${PWD}/crave ${HOME}/bin/
           sudo ln -sf /home/${USER}/bin/crave /usr/bin/crave
           envsubst < ${PWD}/crave.conf.sample >> ${PWD}/crave.conf
-          rm -rf ${PWD}/crave.conf.sample          
+          rm -rf ${PWD}/crave.conf.sample
         fi
       env:
         CRAVE_USERNAME: ${{  secrets.CRAVE_USERNAME  }}
@@ -74,16 +75,17 @@ jobs:
             exit 1
           fi
 
-        if tmux has-session -t ghactions; then 
-          echo "Runner is already Running" 
-        else 
+        if tmux has-session -t ghactions; then
+          echo "Runner is already Running"
+        else
           tmux kill-session -t ghactions;
-          tmux new-session -d -s ghactions 
-          tmux send-keys -t ghactions './actions-runner/run.sh' Enter 
+          tmux new-session -d -s ghactions
+          tmux send-keys -t ghactions './actions-runner/run.sh' Enter
           echo "Runner Started"
         fi "
-        
+
   prepare-for-crave:
+    if: inputs.crave == 'active'
     needs: start-runner
     name: Prepare for Building
     runs-on: ubuntu-latest
@@ -98,6 +100,7 @@ jobs:
           exit 1
         fi
   prepare-inside-crave:
+    if: inputs.crave == 'active'
     needs: prepare-for-crave
     name: Prepare inside crave
     runs-on: self-hosted
@@ -106,4 +109,10 @@ jobs:
         run: echo 'hello world'
         shell: bash
         working-directory: /crave-devspaces/actions-runner/_work/builder/los
-        
+  echo:
+    name: Echo, if github runner working!
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo 'Echo, we blocked all crave! ;)'
+        shell: bash

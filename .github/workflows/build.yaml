@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   pre-flight-check:
+    name: Check
     runs-on: ubuntu-latest
     steps:
       - name: Check for active crave runs
@@ -29,11 +30,15 @@ jobs:
           run_id: ${{ github.run_id }}
 
   start-runner:
+    name: Runner starter
+    needs: pre-flight-check
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up environment
       run: |
@@ -78,7 +83,8 @@ jobs:
           echo "Runner Started"
         fi "
         
-  prepare:
+  prepare-for-crave:
+    needs: start-runner
     name: Prepare for Building
     runs-on: ubuntu-latest
     steps:
@@ -91,9 +97,9 @@ jobs:
           echo "Crave Credentials Not Configured! Exiting..."
           exit 1
         fi
-
-  build:
-    name: Build
+  prepare-inside-crave:
+    needs: prepare-for-crave
+    name: Prepare inside crave
     runs-on: self-hosted
     steps:
       - name: Echo
